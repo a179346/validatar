@@ -1,6 +1,6 @@
 {
   "name": "validatar",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "A simple way to validate data.",
   "main": "Validatar.js",
   "scripts": {
@@ -8,7 +8,8 @@
   },
   "files": [
     "Validatar.js",
-    "Constraint.js"
+    "Constraint.js",
+    "README.md"
   ],
   "keywords": [
     "valid",
@@ -17,6 +18,11 @@
     "js",
     "nodejs"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a179346/validatar"
+  },
+  "homepage": "https://github.com/a179346/validatar",
   "author": "a179346",
   "license": "ISC"
 }
