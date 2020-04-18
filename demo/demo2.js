@@ -29,3 +29,4 @@ const wrongData = {
 const wrongResult = Validatar.validate(wrongData, rule);
 console.log(wrongResult);
 // expected output: Error: Wrong input format
+// Caused by constraint "required"
