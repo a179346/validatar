@@ -1,25 +1,22 @@
 const Validatar = new (require('validatar'))();
 
-Validatar.register('required', 'must exist', (v) => v !== undefined);
-Validatar.register('isString', 'must be string', (v) => (v === undefined) || (typeof (v) === 'string'));
+Validatar.register('required', '%{key} is required', (v) => v !== undefined);
+Validatar.register('isString', '%{key} is not a string. value:%{value}', (v) => (typeof (v) === 'string'));
 
 const data = {
-  str1: '123',
+  str1: 'I am a string!',
   obj1: {
-    str2: '456',
+    str2: 456,
   },
 };
 
 const rule = {
-  str1: ['required', 'isString'],
+  str1: [{ constraint: 'isString', message: 'str1 must be string' }],
   obj1: {
-    obj2: {
-      str3: [{ constraint: 'required', message: 'str3 must exist' }, { constraint: 'isString', message: 'str3 must be string' }],
-    },
-    str2: [{ constraint: 'isString', message: 'str2 must be string' }],
+    str2: ['required', 'isString'],
   },
 };
 
 const result = Validatar.validate(data, rule);
 console.log(result);
-// expected output: "str3 must exist"
+// expected output: "str2 is not a string. value:456"

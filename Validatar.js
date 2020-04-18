@@ -1,6 +1,6 @@
-const Constraint = require('./Constraint');
+const Constraint = require('validatar/Constraint');
 
-class Validator {
+class Validatar {
   constructor() {
     this.constraints = {};
   }
@@ -33,7 +33,14 @@ class Validator {
             if (typeof (con) === 'string') { constraint = this.constraint(con); } else { constraint = this.constraint(con.constraint); }
             if (!(constraint instanceof Constraint)) { throw new Error('The value in array must be Constraint'); }
             if (constraint.func(obj[key]) !== true) {
-              return (con.message || constraint.message || `The constaint: ${constraint.id} did not pass.`);
+              return (
+                con.message
+                || (
+                  typeof (constraint.message) === 'string'
+                    ? constraint.message.replace(/%\{key\}/g, key).replace(/%\{value\}/g, obj[key])
+                    : constraint.message
+                )
+              );
             }
           }
         } else {
@@ -46,4 +53,4 @@ class Validator {
   }
 }
 
-module.exports = Validator;
+module.exports = Validatar;

@@ -2,12 +2,12 @@
   "name": "validatar",
   "version": "0.0.1",
   "description": "A simple way to validate data.",
-  "main": "Validator.js",
+  "main": "Validatar.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
-    "Validator.js",
+    "Validatar.js",
     "Constraint.js"
   ],
   "keywords": [
