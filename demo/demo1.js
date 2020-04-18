@@ -1,7 +1,7 @@
-const Validatar = require('../Validatar');
+const Validatar = require('validatar');
 
 Validatar.register('required', '%{key} is required', (v) => v !== undefined);
-Validatar.register('isString', '%{key} is not a string. value:%{value}', (v) => (typeof (v) === 'string'));
+Validatar.register('isString', '%{key} is not a string. value:%{value} position:%{position}', (v) => (typeof (v) === 'string'));
 
 const data = {
   str1: 'I am a string!',
@@ -19,4 +19,11 @@ const rule = {
 
 const result = Validatar.validate(data, rule);
 console.log(result);
-// expected output: "str2 is not a string. value:456"
+// expected output:
+// {
+//   constraintId: 'isString',
+//   position: 'obj1.str2',
+//   key: 'str2',
+//   value: 456,
+//   message: 'str2 is not a string. value:456 position:obj1.str2',
+// }

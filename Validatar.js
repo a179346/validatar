@@ -6,6 +6,7 @@ function register(constraintId, message, checkFunction) {
   if (typeof (constraintId) !== 'string') { throw new Error('constraintId is not a string.'); }
   if (!message) throw new Error('Constraint message is required.');
   if (typeof (checkFunction) !== 'function') { throw new Error('Constraint check funcction is not a function.'); }
+  if (Object.prototype.hasOwnProperty.call(constraints, constraintId)) { throw new Error(`The constraintId "${constraintId}" has been taken.`); }
   constraints[constraintId] = new Constraint(constraintId, message, checkFunction);
 }
 
@@ -14,8 +15,9 @@ function getConstraint(id) {
   throw new Error(`The constraint id: "${id}" has not been registered.`);
 }
 
-function validate(inputData, rule) {
+function validate(inputData, rule, position = '') {
   const obj = inputData === undefined ? {} : inputData;
+  if (typeof (position) !== 'string') { throw new Error('The position is not a string.'); }
   if (!obj || typeof (obj) !== 'object') { throw new Error('The inputData is not an object.'); }
   if (!rule || typeof (rule) !== 'object') { throw new Error('The rule is not an object.'); }
   const keys = Object.keys(rule);
@@ -29,19 +31,11 @@ function validate(inputData, rule) {
           let constraint;
           if (typeof (con) === 'string') { constraint = getConstraint(con); } else { constraint = getConstraint(con.constraint); }
           if (!(constraint instanceof Constraint)) { throw new Error('The value in array can not be considered as a constraint.'); }
-          if (constraint.func(obj[key]) !== true) {
-            return (
-              con.message
-              || (
-                typeof (constraint.message) === 'string'
-                  ? constraint.message.replace(/%\{key\}/g, key).replace(/%\{value\}/g, obj[key])
-                  : constraint.message
-              )
-            );
-          }
+          const checkResult = constraint.check(obj[key], con.message, key, position + key);
+          if (checkResult) return checkResult;
         }
       } else {
-        const result = validate(obj[key], rule[key]);
+        const result = validate(obj[key], rule[key], `${key}.`);
         if (result) return result;
       }
     }

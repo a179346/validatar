@@ -1,4 +1,4 @@
-const Validatar = require('../Validatar');
+const Validatar = require('validatar');
 
 Validatar.register('required', new Error('Wrong input format'), (v) => v !== undefined);
 Validatar.register('isString', '%{key} is not a string. value:%{value}', (v) => (typeof (v) === 'string'));
@@ -28,5 +28,11 @@ const wrongData = {
 
 const wrongResult = Validatar.validate(wrongData, rule);
 console.log(wrongResult);
-// expected output: Error: Wrong input format
-// Caused by constraint "required"
+// expected output:
+// {
+//   constraintId: 'required',
+//   position: 'obj1.email',
+//   key: 'email',
+//   value: undefined,
+//   message: new Error('Wrong input format')
+// }

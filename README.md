@@ -1,14 +1,14 @@
 # validatar
 Javascript data validator. A simple way to validate date and customerize the constraint.
 ***
-[click me to npm package link](https://www.npmjs.com/package/validatar)
+[click me to npm package](https://www.npmjs.com/package/validatar)
 
 ## Demo
 ```js
 const Validatar = require('validatar');
 
 Validatar.register('required', '%{key} is required', (v) => v !== undefined);
-Validatar.register('isString', '%{key} is not a string. value:%{value}', (v) => (typeof (v) === 'string'));
+Validatar.register('isString', '%{key} is not a string. value:%{value} position:%{position}', (v) => (typeof (v) === 'string'));
 
 const data = {
   str1: 'I am a string!',
@@ -26,7 +26,14 @@ const rule = {
 
 const result = Validatar.validate(data, rule);
 console.log(result);
-// expected output: "str2 is not a string. value:456"
+// expected output:
+// {
+//   constraintId: 'isString',
+//   position: 'obj1.str2',
+//   key: 'str2',
+//   value: 456,
+//   message: 'str2 is not a string. value:456 position:obj1.str2',
+// }
 ```
 
 ## Another Demo
@@ -61,6 +68,12 @@ const wrongData = {
 
 const wrongResult = Validatar.validate(wrongData, rule);
 console.log(wrongResult);
-// expected output: Error: Wrong input format
-// Caused by constraint "required"
+// expected output:
+// {
+//   constraintId: 'required',
+//   position: 'obj1.email',
+//   key: 'email',
+//   value: undefined,
+//   message: new Error('Wrong input format')
+// }
 ```
