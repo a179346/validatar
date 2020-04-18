@@ -1,0 +1,22 @@
+{
+  "name": "validatar",
+  "version": "0.0.1",
+  "description": "A simple way to validate data.",
+  "main": "Validator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "Validator.js",
+    "Constraint.js"
+  ],
+  "keywords": [
+    "valid",
+    "validate",
+    "validator",
+    "js",
+    "nodejs"
+  ],
+  "author": "a179346",
+  "license": "ISC"
+}
