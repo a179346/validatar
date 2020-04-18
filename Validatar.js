@@ -1,4 +1,4 @@
-const Constraint = require('validatar/Constraint');
+const Constraint = require('./Constraint');
 
 class Validatar {
   constructor() {
@@ -6,21 +6,21 @@ class Validatar {
   }
 
   register(id, message, func) {
-    if (typeof (id) !== 'string') { throw new Error('Constraint id must be string'); }
-    if (typeof (message) !== 'string') { throw new Error('Constraint id must be string'); }
-    if (typeof (func) !== 'function') { throw new Error('Constraint func must be function'); }
+    if (typeof (id) !== 'string') { throw new Error('Constraint id is not a string.'); }
+    if (!message) throw new Error('Constraint message is required.');
+    if (typeof (func) !== 'function') { throw new Error('Constraint check funcction is not a function.'); }
     this.constraints[id] = new Constraint(id, message, func);
   }
 
-  constraint(id) {
+  getConstraint(id) {
     if (Object.prototype.hasOwnProperty.call(this.constraints, id)) { return this.constraints[id]; }
     throw new Error(`The constraint id: "${id}" has not been registered.`);
   }
 
   validate(inputData, rule) {
     const obj = inputData === undefined ? {} : inputData;
-    if (!obj || typeof (obj) !== 'object') { throw new Error('The obj must be object'); }
-    if (!rule || typeof (rule) !== 'object') { throw new Error('The rule must be object'); }
+    if (!obj || typeof (obj) !== 'object') { throw new Error('The inputData is not an object.'); }
+    if (!rule || typeof (rule) !== 'object') { throw new Error('The rule is not an object.'); }
     const keys = Object.keys(rule);
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i];
@@ -30,8 +30,8 @@ class Validatar {
           for (let j = 0; j < ruleVal.length; j += 1) {
             const con = ruleVal[j];
             let constraint;
-            if (typeof (con) === 'string') { constraint = this.constraint(con); } else { constraint = this.constraint(con.constraint); }
-            if (!(constraint instanceof Constraint)) { throw new Error('The value in array must be Constraint'); }
+            if (typeof (con) === 'string') { constraint = this.getConstraint(con); } else { constraint = this.getConstraint(con.constraint); }
+            if (!(constraint instanceof Constraint)) { throw new Error('The value in array can not be considered as a constraint.'); }
             if (constraint.func(obj[key]) !== true) {
               return (
                 con.message
