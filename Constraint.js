@@ -1,9 +1,8 @@
-class Constraint {
-  constructor(id, message, func) {
-    this.id = id;
-    this.message = message;
-    this.func = func;
-  }
+
+function Constraint(constraintId, message, checkFunction) {
+  this.id = constraintId;
+  this.message = message;
+  this.func = checkFunction;
 }
 
 module.exports = Constraint;

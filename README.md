@@ -5,7 +5,7 @@ Javascript data validator. A simple way to validate date and customerize the con
 
 ## Demo
 ```js
-const Validatar = new (require('validatar'))();
+const Validatar = require('validatar');
 
 Validatar.register('required', '%{key} is required', (v) => v !== undefined);
 Validatar.register('isString', '%{key} is not a string. value:%{value}', (v) => (typeof (v) === 'string'));
@@ -31,7 +31,7 @@ console.log(result);
 
 ## Another Demo
 ```js
-const Validatar = new (require('validatar'))();
+const Validatar = require('validatar');
 
 Validatar.register('required', new Error('Wrong input format'), (v) => v !== undefined);
 Validatar.register('isString', '%{key} is not a string. value:%{value}', (v) => (typeof (v) === 'string'));
