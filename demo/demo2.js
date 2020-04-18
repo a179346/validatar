@@ -12,7 +12,7 @@ const correctData = {
 };
 
 const rule = {
-  str1: [{ constraint: 'isString', message: 'str1 must be string' }],
+  str1: [{ constraint: 'required', message: 'str1 not exists' }, { constraint: 'isString', message: new Error('str1 must be string') }],
   obj1: {
     email: ['required', 'isString', 'isEmail'],
   },
