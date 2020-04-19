@@ -32,6 +32,7 @@ console.log(result);
 //   position: 'obj1.str2',
 //   key: 'str2',
 //   value: 456,
+//   params: undefined,
 //   message: 'str2 is not a string. value:456 position:obj1.str2',
 // }
 ```
@@ -74,6 +75,40 @@ console.log(wrongResult);
 //   position: 'obj1.email',
 //   key: 'email',
 //   value: undefined,
+//   params: undefined,
 //   message: new Error('Wrong input format')
+// }
+```
+
+## Can pass parameters to check function
+```js
+const Validatar = require('validatar');
+
+Validatar.register('isString', '%{key} is not a string. value:%{value} position:%{position}', (v) => (typeof (v) === 'string'));
+Validatar.register('checkLength', '%{key} length error.', (v, params) => (v.length >= params[0] && v.length <= params[1]));
+
+const data = {
+  str1: 'I am a string!',
+};
+
+const rule = {
+  str1: [
+    'isString', {
+      constraint: 'checkLength',
+      params: [5, 12],
+    },
+  ],
+};
+
+const result = Validatar.validate(data, rule);
+console.log(result);
+// expected output:
+// {
+//   constraintId: 'checkLength',
+//   position: 'str1',
+//   key: 'str1',
+//   value: 'I am a string!',
+//   params: [5, 12],
+//   message: 'str1 length error.',
 // }
 ```

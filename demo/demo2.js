@@ -1,4 +1,4 @@
-const Validatar = require('../Validatar');
+const Validatar = require('validatar');
 
 Validatar.register('required', new Error('Wrong input format'), (v) => v !== undefined);
 Validatar.register('isString', '%{key} is not a string. value:%{value}', (v) => (typeof (v) === 'string'));
