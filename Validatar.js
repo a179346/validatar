@@ -8,7 +8,7 @@ function register(constraintId, message, checkFunction) {
   }
   if (!message) throw new Error('Constraint message is required.');
   if (typeof (checkFunction) !== 'function') {
-    throw new Error('Constraint check funcction is not a function.');
+    throw new Error('Constraint check function is not a function.');
   }
   if (Object.prototype.hasOwnProperty.call(constraints, constraintId)) {
     throw new Error(`The constraintId "${constraintId}" has been taken.`);
