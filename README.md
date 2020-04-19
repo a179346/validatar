@@ -1,7 +1,13 @@
 # validatar
-Javascript data validator. A simple way to validate date and customerize the constraint.
-***
-[click me to npm package](https://www.npmjs.com/package/validatar)
+Javascript data validator. 
+<br>
+A simple way to validate date and customerize the constraint.
+## Links
+[npm package](https://www.npmjs.com/package/validatar)
+<br>
+[Github page](https://github.com/a179346/validatar)
+<br>
+[async-validatar](https://www.npmjs.com/package/async-validatar)
 
 ## Demo
 ```js
