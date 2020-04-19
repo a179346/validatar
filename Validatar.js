@@ -23,7 +23,7 @@ function getConstraint(id) {
   throw new Error(`The constraint id: "${id}" has not been registered.`);
 }
 
-function validate(inputData, rule, position = '') {
+function validateRecursive(inputData, rule, position) {
   const obj = inputData === undefined ? {} : inputData;
   if (typeof (position) !== 'string') {
     throw new Error('The position is not a string.');
@@ -64,7 +64,7 @@ function validate(inputData, rule, position = '') {
           if (checkResult) return checkResult;
         }
       } else if (ruleVal && typeof (ruleVal) === 'object') {
-        const result = validate(obj[key], rule[key], `${key}.`);
+        const result = validateRecursive(obj[key], rule[key], `${key}.`);
         if (result) return result;
       } else {
         throw new Error(`The ruleVal is neither array nor object. position:${position + key} value:${ruleVal}`);
@@ -72,6 +72,10 @@ function validate(inputData, rule, position = '') {
     }
   }
   return undefined;
+}
+
+function validate(inputData, rule) {
+  return validateRecursive(inputData, rule, '');
 }
 
 module.exports = {
