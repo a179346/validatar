@@ -34,5 +34,6 @@ console.log(wrongResult);
 //   position: 'obj1.email',
 //   key: 'email',
 //   value: undefined,
+//   params: undefined,
 //   message: new Error('Wrong input format')
 // }

@@ -43,9 +43,10 @@ function validate(inputData, rule, position = '') {
         for (let j = 0; j < ruleVal.length; j += 1) {
           const con = ruleVal[j];
           let constraint;
-          if (typeof (con) === 'string') {
+          const type = typeof (con);
+          if (type === 'string') {
             constraint = getConstraint(con);
-          } else if (con && typeof (con) === 'object' && typeof (con.constraint) === 'string') {
+          } else if (con && type === 'object' && typeof (con.constraint) === 'string') {
             constraint = getConstraint(con.constraint);
           } else {
             throw new Error('The value in array can not be considered as a constraint.');
@@ -53,7 +54,13 @@ function validate(inputData, rule, position = '') {
           if (!(constraint instanceof Constraint)) {
             throw new Error('The value in array can not be considered as a constraint.');
           }
-          const checkResult = constraint.check(obj[key], typeof (con) === 'string' ? undefined : con.message, key, position + key);
+          const checkResult = constraint.check(
+            obj[key], // value
+            type === 'string' ? undefined : con.params, // params
+            type === 'string' ? undefined : con.message, // message
+            key, // key
+            position + key, // position
+          );
           if (checkResult) return checkResult;
         }
       } else {

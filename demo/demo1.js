@@ -25,5 +25,6 @@ console.log(result);
 //   position: 'obj1.str2',
 //   key: 'str2',
 //   value: 456,
+//   params: undefined,
 //   message: 'str2 is not a string. value:456 position:obj1.str2',
 // }

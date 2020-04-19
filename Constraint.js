@@ -5,14 +5,15 @@ function Constraint(constraintId, message, checkFunction) {
   this.checkFunction = checkFunction;
 }
 
-Constraint.prototype.check = function (value, message, key, position) {
-  if (this.checkFunction(value) !== true) {
+Constraint.prototype.check = function (value, params, message, key, position) {
+  if (this.checkFunction(value, params) !== true) {
     const { constraintId } = this;
     const result = {
       constraintId,
       position,
       key,
       value,
+      params,
     };
     result.message = (
       message
