@@ -1,4 +1,4 @@
-const Validatar = require('validatar');
+const Validatar = require('../Validatar');
 
 Validatar.register('required', '%{key} is required', (v) => v !== undefined);
 Validatar.register('isString', '%{key} is not a string. value:%{value} position:%{position}', (v) => (typeof (v) === 'string'));

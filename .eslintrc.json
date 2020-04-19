@@ -18,6 +18,10 @@
         "no-console":0,
         "global-require":0,
         "import/no-extraneous-dependencies":0,
-        "func-names":0
+        "func-names":0,
+        "brace-style": [
+            "error",
+            "1tbs"
+        ]
     }
 }

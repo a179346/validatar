@@ -3,23 +3,37 @@ const Constraint = require('./Constraint');
 const constraints = {};
 
 function register(constraintId, message, checkFunction) {
-  if (typeof (constraintId) !== 'string') { throw new Error('constraintId is not a string.'); }
+  if (typeof (constraintId) !== 'string') {
+    throw new Error('constraintId is not a string.');
+  }
   if (!message) throw new Error('Constraint message is required.');
-  if (typeof (checkFunction) !== 'function') { throw new Error('Constraint check funcction is not a function.'); }
-  if (Object.prototype.hasOwnProperty.call(constraints, constraintId)) { throw new Error(`The constraintId "${constraintId}" has been taken.`); }
+  if (typeof (checkFunction) !== 'function') {
+    throw new Error('Constraint check funcction is not a function.');
+  }
+  if (Object.prototype.hasOwnProperty.call(constraints, constraintId)) {
+    throw new Error(`The constraintId "${constraintId}" has been taken.`);
+  }
   constraints[constraintId] = new Constraint(constraintId, message, checkFunction);
 }
 
 function getConstraint(id) {
-  if (Object.prototype.hasOwnProperty.call(constraints, id)) { return constraints[id]; }
+  if (Object.prototype.hasOwnProperty.call(constraints, id)) {
+    return constraints[id];
+  }
   throw new Error(`The constraint id: "${id}" has not been registered.`);
 }
 
 function validate(inputData, rule, position = '') {
   const obj = inputData === undefined ? {} : inputData;
-  if (typeof (position) !== 'string') { throw new Error('The position is not a string.'); }
-  if (!obj || typeof (obj) !== 'object') { throw new Error('The inputData is not an object.'); }
-  if (!rule || typeof (rule) !== 'object') { throw new Error('The rule is not an object.'); }
+  if (typeof (position) !== 'string') {
+    throw new Error('The position is not a string.');
+  }
+  if (!obj || typeof (obj) !== 'object') {
+    throw new Error('The inputData is not an object.');
+  }
+  if (!rule || typeof (rule) !== 'object') {
+    throw new Error('The rule is not an object.');
+  }
   const keys = Object.keys(rule);
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
@@ -29,9 +43,17 @@ function validate(inputData, rule, position = '') {
         for (let j = 0; j < ruleVal.length; j += 1) {
           const con = ruleVal[j];
           let constraint;
-          if (typeof (con) === 'string') { constraint = getConstraint(con); } else { constraint = getConstraint(con.constraint); }
-          if (!(constraint instanceof Constraint)) { throw new Error('The value in array can not be considered as a constraint.'); }
-          const checkResult = constraint.check(obj[key], con.message, key, position + key);
+          if (typeof (con) === 'string') {
+            constraint = getConstraint(con);
+          } else if (con && typeof (con) === 'object' && typeof (con.constraint) === 'string') {
+            constraint = getConstraint(con.constraint);
+          } else {
+            throw new Error('The value in array can not be considered as a constraint.');
+          }
+          if (!(constraint instanceof Constraint)) {
+            throw new Error('The value in array can not be considered as a constraint.');
+          }
+          const checkResult = constraint.check(obj[key], typeof (con) === 'string' ? undefined : con.message, key, position + key);
           if (checkResult) return checkResult;
         }
       } else {
