@@ -49,10 +49,10 @@ function validate(inputData, rule, position = '') {
           } else if (con && type === 'object' && typeof (con.constraint) === 'string') {
             constraint = getConstraint(con.constraint);
           } else {
-            throw new Error('The value in array can not be considered as a constraint.');
+            throw new Error(`The value in array can not be considered as a constraint. position:${position + key} value:${con}`);
           }
           if (!(constraint instanceof Constraint)) {
-            throw new Error('The value in array can not be considered as a constraint.');
+            throw new Error(`The value in array can not be considered as a constraint. position:${position + key} value:${con}`);
           }
           const checkResult = constraint.check(
             obj[key], // value
@@ -63,9 +63,11 @@ function validate(inputData, rule, position = '') {
           );
           if (checkResult) return checkResult;
         }
-      } else {
+      } else if (ruleVal && typeof (ruleVal) === 'object') {
         const result = validate(obj[key], rule[key], `${key}.`);
         if (result) return result;
+      } else {
+        throw new Error(`The ruleVal is neither array nor object. position:${position + key} value:${ruleVal}`);
       }
     }
   }
