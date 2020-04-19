@@ -1,6 +1,6 @@
 {
   "name": "validatar",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A simple way to validate data.",
   "main": "Validatar.js",
   "scripts": {
