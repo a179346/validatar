@@ -102,7 +102,7 @@ Validatar.register('checkLength', '%{key} length error.', (v, params) => (v.leng
  *   position: {string} The position where the constraint is violated.
  *   key: {string} The key where the constraint is violated.
  *   value: {Any} The value where the constraint is violated.
- *   params: {Array} 
+ *   params: {Any}
  *   message: {Any} The message of the constraint
  * }
  */
