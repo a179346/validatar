@@ -2,6 +2,10 @@
 Javascript data validator. 
 <br>
 A simple way to validate date and customerize the constraint.
+## Installation
+```js
+npm install validatar
+```
 ## Links
 [npm package](https://www.npmjs.com/package/validatar)
 <br>
@@ -9,7 +13,8 @@ A simple way to validate date and customerize the constraint.
 <br>
 [async-validatar](https://www.npmjs.com/package/async-validatar)
 
-## Demo
+## Usage
+#### Example
 ```js
 const Validatar = require('validatar');
 
@@ -42,8 +47,68 @@ console.log(result);
 //   message: 'str2 is not a string. value:456 position:obj1.str2',
 // }
 ```
+#### Pass parameters to check function
+```js
+const Validatar = require('validatar');
 
-## Another Demo
+Validatar.register('isString', '%{key} is not a string. value:%{value} position:%{position}', (v) => (typeof (v) === 'string'));
+Validatar.register('checkLength', '%{key} length error.', (v, params) => (v.length >= params[0] && v.length <= params[1]));
+
+const data = {
+  str1: 'I am a string!',
+};
+
+const rule = {
+  str1: [
+    'isString', {
+      constraint: 'checkLength',
+      params: [5, 12],
+    },
+  ],
+};
+
+const result = Validatar.validate(data, rule);
+console.log(result);
+// expected output:
+// {
+//   constraintId: 'checkLength',
+//   position: 'str1',
+//   key: 'str1',
+//   value: 'I am a string!',
+//   params: [5, 12],
+//   message: 'str1 length error.',
+// }
+```
+## Main Function
+#### Validatar.register
+```js
+/**
+ * Register a constraint
+ * @param {string} constraintId
+ * @param {Any truthy value} message: The message of the constraint. Will return when the constraint is violated.
+ * @param {function} checkFunction: If the return value of this function is not true, the constraint is violated.
+ */
+Validatar.register('checkLength', '%{key} length error.', (v, params) => (v.length >= params[0] && v.length <= params[1]));
+```
+#### Validatar.validate
+```js
+/**
+ * Validate the input data
+ * @param {Object} data: The input data
+ * @param {Object} rule: The rule to check the input data
+ * @return {undefined | Object} return undefined if pass the rule.return object if any constraint in the rule is violated. 
+ * {
+ *   constraintId: {string} The constraint id that is violated.
+ *   position: {string} The position where the constraint is violated.
+ *   key: {string} The key where the constraint is violated.
+ *   value: {Any} The value where the constraint is violated.
+ *   params: {Array} 
+ *   message: {Any} The message of the constraint
+ * }
+ */
+const result = Validatar.validate(data, rule);
+```
+## Another Example
 ```js
 const Validatar = require('validatar');
 
@@ -86,35 +151,4 @@ console.log(wrongResult);
 // }
 ```
 
-## Can pass parameters to check function
-```js
-const Validatar = require('validatar');
 
-Validatar.register('isString', '%{key} is not a string. value:%{value} position:%{position}', (v) => (typeof (v) === 'string'));
-Validatar.register('checkLength', '%{key} length error.', (v, params) => (v.length >= params[0] && v.length <= params[1]));
-
-const data = {
-  str1: 'I am a string!',
-};
-
-const rule = {
-  str1: [
-    'isString', {
-      constraint: 'checkLength',
-      params: [5, 12],
-    },
-  ],
-};
-
-const result = Validatar.validate(data, rule);
-console.log(result);
-// expected output:
-// {
-//   constraintId: 'checkLength',
-//   position: 'str1',
-//   key: 'str1',
-//   value: 'I am a string!',
-//   params: [5, 12],
-//   message: 'str1 length error.',
-// }
-```
